@@ -1,0 +1,156 @@
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+using namespace std;
+
+int getRandomNumber(int min, int max) {
+  srand(time(NULL));
+  int num = min + rand() % (max - min + 1);
+  return num;
+}
+
+void showPool(char pool[3][3]) {
+    for (int i = 0 ; i < 3 ; i++){
+        for (int j = 0 ; j < 3 ; j++) {
+            cout<<pool[i][j]<<' ';
+        }
+        cout<<endl;
+    }
+}
+
+int main() {
+    
+    srand(0);
+    int a,x,y,tempa=0,tempb=0,tempc=0,temp=0;
+    char xo[2]={'x','o'};
+    char ans;
+    char pool[3][3]={'-','-','-','-','-','-','-','-','-'};
+    
+    while(true) {
+        
+        if(a==3) break;
+        if(a!=1 && a!=2) {
+            cout<<"Welcome to tic-tac-toe!\n(1-play for x; 2-play for o; 3-exit)\n";
+            cin>>a;
+        } 
+        
+        switch(a) {
+            
+            case 1:
+                showPool(pool);
+                cout<<"Enter the coordinates:\n(for example: 1 2)";
+                cin>>x>>y;
+                    while(true){
+                        if(pool[x-1][y-1]!='-'){
+                        cout<<"ERROR. TRY AGAIN!\n";
+                        cin>>x>>y;
+                        }
+                        else {
+                            pool[x-1][y-1]='x';
+                            temp++;
+                            break;
+                        }
+                }
+                
+                while(true){
+                    x=getRandomNumber(0,3)-1;
+                    y=getRandomNumber(0,3)-1;
+                    if(pool[x][y]=='-') {
+                        pool[x][y]='o';
+                        temp++;
+                        break;
+                    }
+                }
+
+                for(int i = 0 ; i < 3 ; i++){
+                    for (int j = 0 ; j < 3 ; j++) {
+                        if(pool[i][j]=='x') tempa++;
+                        else if(pool[i][j]=='o') tempa--;
+                        if(pool[j][i]=='x') tempb++;
+                        else if(pool[j][i]=='o') tempb--;
+                        if(pool[j][j]=='x') tempc++;
+                        else if(pool[j][j]=='o') tempc--;
+                    }
+                    if(tempa==3 || tempb==3 || tempc==3){
+                        showPool(pool);
+                        cout<<"CONGRATULATIONS!!! You won!";
+                        a=3;
+                        break;
+                    }
+                    if(tempa==-3 || tempb==-3 || tempc==-3){
+                        showPool(pool);
+                        cout<<"I`m Sorry but you lost!";
+                        a=3;
+                        break;
+                    }
+                    tempa=tempb=tempc=0;
+                }
+                
+                if(temp>8){
+                    showPool(pool);
+                    cout<<"It`s Draw!\n";
+                    a=3;
+                }
+                
+                break;
+                
+                case 2:
+                    while(true){
+                        x=getRandomNumber(0,3)-1;
+                        y=getRandomNumber(0,3)-1;
+                        if(pool[x][y]=='-') {
+                            pool[x][y]='x';
+                            temp++;
+                            break;
+                        }
+                    }
+                    showPool(pool);
+
+                    cout<<"Enter the coordinates:\n(for example: 1 2)";
+                    cin>>x>>y;
+                    while(true){
+                        if(pool[x-1][y-1]!='-'){
+                            cout<<"ERROR. TRY AGAIN!\n";
+                            cin>>x>>y;
+                        }
+                        else {
+                            pool[x-1][y-1]='o';
+                            temp++;
+                            break;
+                        }
+                    }
+                    
+                    for(int i = 0 ; i < 3 ; i++){
+                        for (int j = 0 ; j < 3 ; j++) {
+                            if(pool[i][j]=='o') tempa++;
+                            else if(pool[i][j]=='x') tempa--;
+                            if(pool[j][i]=='o') tempb++;
+                            if(pool[j][i]=='x') tempb--;
+                            if(pool[j][j]=='o') tempc++;
+                            if(pool[j][j]=='x') tempc--;
+                        }
+                        if(tempa>=3 || tempb>=3 || tempc>=3){
+                            showPool(pool);
+                            cout<<"CONGRATULATIONS!!! You won!";
+                            a=3;
+                            break;
+                        }
+                        if(tempa==-3 || tempb==-3 || tempc==-3){
+                            showPool(pool);
+                            cout<<"I`m Sorry but you lost!";
+                            a=3;
+                            break;
+                        }
+                        tempa=tempb=tempc=0;
+                    }
+                    if(temp>8) {
+                        showPool(pool);
+                        cout<<"It`s Draw!\n";
+                        a=3;
+                    }
+
+                    break;
+        }
+    }
+    return 0;
+}
